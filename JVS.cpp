@@ -9,6 +9,7 @@
 #include "JVS.h"
 #include "constants.h"
 
+
 JVS::JVS(HardwareSerial& serial) :
 _Uart(serial) // Need to initialize references before body
 {
@@ -22,36 +23,36 @@ _Uart(serial) // Need to initialize references before body
 }
 
 void JVS::reset() {
-	char str[] = { CMD_RESET, CMD_RESET_ARG };
+	char str[] = { (char) CMD_RESET, (char) CMD_RESET_ARG };
 	this->write_packet(BROADCAST, str, 2);
 	delay(ASSIGN_DELAY);
 	Serial.println("RESET");
 }
 
 void JVS::assign(int attempt) {
-	char str[] = { CMD_ASSIGN_ADDR, attempt };
+	char str[] = { (char) CMD_ASSIGN_ADDR, (char) attempt };
 	this->cmd(BROADCAST, str, 2);
 	Serial.println("ADDR");
 }
 
 void JVS::init(int board) {
 	Serial.println("ADDR");
-	char str[] = { CMD_ASSIGN_ADDR, board };
+	char str[] = { (char) CMD_ASSIGN_ADDR, board };
 	this->cmd(BROADCAST, str, 2);
 	Serial.println("REQ");
-	char str1[] = { CMD_REQUEST_ID };
+	char str1[] = { (char) CMD_REQUEST_ID };
 	this->cmd(board, str1, 1);
 	Serial.println("CMD");
-	char str2[] = { CMD_COMMAND_VERSION };
+	char str2[] = { (char) CMD_COMMAND_VERSION };
 	this->cmd(board, str2, 1);
 	Serial.println("JVS");
-	char str3[] = { CMD_JVS_VERSION };
+	char str3[] = { (char) CMD_JVS_VERSION };
 	this->cmd(board, str3, 1);
 	Serial.println("CMS");
-	char str4[] = { CMD_COMMS_VERSION };
+	char str4[] = { (char) CMD_COMMS_VERSION };
 	this->cmd(board, str4, 1);
 	Serial.println("CAP");
-	char str5[] = { CMD_CAPABILITIES };
+	char str5[] = { (char) CMD_CAPABILITIES };
 	this->cmd(board, str5, 1);
 	initialized = true;
 }
@@ -71,11 +72,12 @@ void JVS::switches(int board) {
 	} // wait for length
 	int length = _Uart.read();
 	int counter = 0;
-	int x = 512;
-	int y = 512;
-	int z = 512;
-	int zA = 512;
+  int X_player1 = 512;
+  int Y_player1 = 512;
+  int X_player2 = 512;
+  int Y_player2 = 512; 
 	int coin1 = 0;
+  int coin2 = 0;
 	int key = 0;
 	bool old_shift = shift_mode;
 
@@ -121,15 +123,15 @@ void JVS::switches(int board) {
 				Joystick.button(1,bitRead(incomingByte, 1));
 				Joystick.button(2,bitRead(incomingByte, 0));
 				if bitRead(incomingByte, 2)
-										x += 511;
+										X_player1 += 511;
 				if bitRead(incomingByte, 3)
-										x -= 512;
-				Joystick.X(x);
+										X_player1 -= 512;
+				//Joystick.X(X_player1);
 				if bitRead(incomingByte, 4)
-										y += 511;
+										Y_player1 += 511;
 				if bitRead(incomingByte, 5)
-										y -= 512;
-				Joystick.Y(y);
+										Y_player1 -= 512;
+				//Joystick.Y(Y_player1);
 				Joystick.button(7,bitRead(incomingByte, 6));
 			}
 			break;
@@ -154,19 +156,19 @@ void JVS::switches(int board) {
 				if (key)
 					pressed_smth = true;
 			} else {
-				Joystick.button(17,bitRead(incomingByte, 0));
-				Joystick.button(18,bitRead(incomingByte, 1));
+				Joystick2.button(17,bitRead(incomingByte, 0));
+				Joystick2.button(18,bitRead(incomingByte, 1));
 				if bitRead(incomingByte, 2)
-										zA += 511;
+										X_player2 += 511;
 				if bitRead(incomingByte, 3)
-										zA -= 512;
-				Joystick.Zrotate(zA);
+										X_player2 -= 512;
+				//Joystick2.X(X_player2);
 				if bitRead(incomingByte, 4)
-										z += 511;
+										Y_player2 += 511;
 				if bitRead(incomingByte, 5)
-										z -= 512;
-				Joystick.Z(z);
-				Joystick.button(23,bitRead(incomingByte, 6));
+										Y_player2 -= 512;
+				//Joystick2.Y(Y_player2);
+				Joystick2.button(23,bitRead(incomingByte, 6));
 				if bitRead(incomingByte, 7)
 					Keyboard.press(KEY_2);
 				else
@@ -178,12 +180,12 @@ void JVS::switches(int board) {
 			if (shift_mode) {
 
 			} else {
-				Joystick.button(25,bitRead(incomingByte, 2));
-				Joystick.button(26,bitRead(incomingByte, 3));
-				Joystick.button(27,bitRead(incomingByte, 4));
-				Joystick.button(28,bitRead(incomingByte, 5));
-				Joystick.button(29,bitRead(incomingByte, 6));
-				Joystick.button(30,bitRead(incomingByte, 7));
+				Joystick2.button(25,bitRead(incomingByte, 2));
+				Joystick2.button(26,bitRead(incomingByte, 3));
+				Joystick2.button(27,bitRead(incomingByte, 4));
+				Joystick2.button(28,bitRead(incomingByte, 5));
+				Joystick2.button(29,bitRead(incomingByte, 6));
+				Joystick2.button(30,bitRead(incomingByte, 7));
 			}
 			break;
 		case 8:
@@ -211,10 +213,63 @@ void JVS::switches(int board) {
 			break;
 		case 11:
 			// coins2
-			break;
-		}
+      if (incomingByte > coins2) {
+        // added coin
+        coin2 = 1;
+        coins2 = incomingByte;
+      }
+      if (coin2){
+        coin_pressed_at = millis();
+        Keyboard.press(KEY_6);
+      } else if (coin_pressed_at > 0){
+        if (millis() - coin_pressed_at > 50){
+          coin_pressed_at = 0;
+          Keyboard.release(KEY_6);
+        }
+      }
+      break;
+    case 13:
+      // Analog X P1 
+      //Serial.print(incomingByte,DEC);
+      if(incomingByte < 0) {
+        X_player1 = 1024 + (incomingByte * 4);
+      } else {
+        X_player1 = 4 * incomingByte;
+      }
+      Joystick.X(X_player1);
+      break;
+    case 15:
+    // Analog Y P1 
+      if(incomingByte < 0) {
+        Y_player1 = 1024 + (incomingByte * 4);
+      } else {
+        Y_player1 = 4 * incomingByte;
+      }
+      Joystick.Y(Y_player1);
+      break;
+    case 17:
+      // Analog X P2
+      //Serial.print(incomingByte,DEC);
+      if(incomingByte < 0) {
+        X_player2 = 1024 + (incomingByte * 4);
+      } else {
+        X_player2 = 4 * incomingByte;
+      }
+      Joystick2.X(X_player2);
+      break;
+    case 19:
+      // Analog Y P2
+      if(incomingByte < 0) {
+        Y_player2 = 1024 + (incomingByte * 4);
+      } else {
+        Y_player2 = 4 * incomingByte;
+      }
+      Joystick2.Y(Y_player2);
+      break;
+    }  
 		counter++;
-		Joystick.send_now();
+    Joystick.send_now();
+    Joystick2.send_now();
 	}
 
 	if (key){
