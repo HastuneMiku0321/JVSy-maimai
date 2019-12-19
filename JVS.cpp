@@ -9,6 +9,7 @@
 #include "JVS.h"
 #include "constants.h"
 
+bool analog;
 int keys_Player1[16];   // Touches Joueur 1 
 int keys_Player2[16];   // Touches Joueur 2 
 int keys_Specials[4];   // Touches Speciales
@@ -59,6 +60,7 @@ _Uart(serial) // Need to initialize references before body
 	shift_mode = false;
 	pressed_smth = false;
 	old_key = 0;
+  analog = false;
 }
 
 void JVS::reset() {
@@ -170,13 +172,13 @@ void JVS::switches(int board) {
 
 			} else {
         if bitRead(incomingByte, 1)
-                    keys_Player1[0]=1;
+                    Keyboard.pressModifier(KEY_LEFT_CTRL);
         else
-                    keys_Player1[0]=0;
+                    Keyboard.releaseModifier(KEY_LEFT_CTRL);
         if bitRead(incomingByte, 0)
-                    keys_Player1[1]=1;
+                    Keyboard.pressModifier(KEY_LEFT_ALT);
         else
-                    keys_Player1[1]=0;
+                    Keyboard.releaseModifier(KEY_LEFT_ALT);
 				if bitRead(incomingByte, 2)
 										keys_Player1[7]=1;
         else
@@ -206,9 +208,9 @@ void JVS::switches(int board) {
         else
                     keys_Player1[8]=0;
         if bitRead(incomingByte, 6)
-                    keys_Player1[9]=1;
+                    Keyboard.pressModifier(KEY_LEFT_SHIFT);
         else
-                    keys_Player1[9]=0;
+                    Keyboard.releaseModifier(KEY_LEFT_SHIFT);
         if bitRead(incomingByte, 5)
                     keys_Player1[10]=1;
         else
@@ -361,8 +363,10 @@ void JVS::switches(int board) {
       break;
     }  
 		counter++;
-    Joystick.send_now();
-    Joystick2.send_now();
+    if (analog) {
+      Joystick.send_now(); 
+      Joystick2.send_now();
+    }
 	}
 
   for (nbKeys = 0; nbKeys < 12; nbKeys++) {
