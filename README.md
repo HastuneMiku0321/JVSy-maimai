@@ -53,6 +53,8 @@ P1 start acts as shift button, when pressed simultaneously these keys are presse
 
 Ask for other shift modes, if you need them. I'll see what i can do.
 
+You need a new "board" for compiling, just add this content to your hardware directory and select "Keyboard + 2 Joysticks" https://github.com/gtranche/teensyjvsy
+
 ##Known Limitations
 Doesn't work with analog controls or lightguns, as I don't have any of those to test it with. If you're willing to help, just send me a message.
 
@@ -60,7 +62,6 @@ Doesn't work with analog controls or lightguns, as I don't have any of those to 
 - analog controls are being tested
 - draw schematics
 - multi nodes
-- gun controls
 
 ##Thanks
 invzim, creator of JVS-PAC, for the inspiration.
