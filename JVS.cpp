@@ -156,8 +156,8 @@ void JVS::switches(int board) {
 				if (key)
 					pressed_smth = true;
 			} else {
-				Joystick2.button(1,bitRead(incomingByte, 0));
-				Joystick2.button(2,bitRead(incomingByte, 1));
+				Joystick2.button(1,bitRead(incomingByte, 1));
+				Joystick2.button(2,bitRead(incomingByte, 0));
 				if bitRead(incomingByte, 2)
 										X_player2 += 511;
 				if bitRead(incomingByte, 3)
