@@ -9,6 +9,45 @@
 #include "JVS.h"
 #include "constants.h"
 
+int keys_Player1[16];   // Touches Joueur 1 
+int keys_Player2[16];   // Touches Joueur 2 
+int keys_Specials[4];   // Touches Speciales
+const unsigned int keymap1[] = {        // Player 1
+  KEY_LEFT_CTRL,      // Button 1
+  KEY_LEFT_ALT,       // Button 2
+  KEY_5,              // Coin
+  KEY_1,              // Start
+  KEY_UP,             // Up
+  KEY_DOWN,           // Down
+  KEY_LEFT,           // Left
+  KEY_RIGHT,          // Right
+  KEY_SPACE,          // Button 3
+  KEY_LEFT_SHIFT,     // Button 4
+  KEY_Z,              // Button 5
+  KEY_X               // Button 6
+};
+
+const unsigned int keymap2[] = {       // Player 2
+  KEY_A,              // Button 1
+  KEY_S,              // Button 2
+  KEY_6,              // Coin
+  KEY_2,              // Start
+  KEY_R,              // Up
+  KEY_F,              // Down
+  KEY_D,              // Left
+  KEY_G,              // Right
+  KEY_Q,              // Button 3
+  KEY_W,              // Button 4
+  KEY_I,              // Button 5
+  KEY_K               // Button 6
+};
+
+const unsigned int keymap3[] = {       // Specials
+  KEY_ESC,            // EXIT
+  KEY_TAB,            // Menu Mame
+  KEY_P,              // Pause
+  KEY_ENTER,          // Enter
+};
 
 JVS::JVS(HardwareSerial& serial) :
 _Uart(serial) // Need to initialize references before body
@@ -62,6 +101,7 @@ void JVS::switches(int board) {
 	//char str[ ] = { 0x20, 0x02, 0x02, 0x21, 0x02, 0x22, 0x08};
 	this->write_packet(board, str, sizeof str);
 	char incomingByte;
+  int nbKeys;
 	while (!_Uart.available()) {
 	}
 	while (_Uart.read() != 0xE0) {
@@ -78,8 +118,15 @@ void JVS::switches(int board) {
   int Y_player2 = 512; 
 	int coin1 = 0;
   int coin2 = 0;
-	int key = 0;
 	bool old_shift = shift_mode;
+  keys_Player1[3]=0;
+  keys_Player2[3]=0;
+  keys_Player1[2]=0;
+  keys_Specials[0]=0;
+  keys_Specials[1]=0;
+  keys_Specials[2]=0;
+  keys_Specials[3]=0;
+  
 
 	if	(DEBUG_MODE) {
 		Serial.print("swthc: E0 0 ");
@@ -100,39 +147,53 @@ void JVS::switches(int board) {
 			shift_mode = bitRead(incomingByte, 7);
 
 			if (shift_mode != old_shift) {
-				if (shift_mode == 0 && !pressed_smth)
+				if (shift_mode == 0 && !pressed_smth) {
 					//never pressed anything, wants start
-					key = KEY_1;
+					keys_Player1[3]=1;
+				}
 				else
 					pressed_smth = false;
 			}
 			if (shift_mode) {
 //				Serial.println("shiftmode on");
-				if(bitRead(incomingByte, 1))
-					key = KEY_5;
+				if(bitRead(incomingByte, 1)) 
+					keys_Player1[2]=1;
 				if(bitRead(incomingByte, 2))
-					key = KEY_TAB;
+					keys_Specials[1]=1;
 				if(bitRead(incomingByte, 3))
-					key = KEY_ENTER;
+					keys_Specials[3]=1;
 				if(bitRead(incomingByte, 4))
-					key = KEY_P;
+					keys_Specials[2]=1;
+      
+      if (keys_Player1[3] || keys_Player1[2] || keys_Specials[1] || keys_Specials[3] || keys_Specials[2])
+          pressed_smth = true;
 
-				if (key)
-					pressed_smth = true;
 			} else {
-				Joystick.button(1,bitRead(incomingByte, 1));
-				Joystick.button(2,bitRead(incomingByte, 0));
+        if bitRead(incomingByte, 1)
+                    keys_Player1[0]=1;
+        else
+                    keys_Player1[0]=0;
+        if bitRead(incomingByte, 0)
+                    keys_Player1[1]=1;
+        else
+                    keys_Player1[1]=0;
 				if bitRead(incomingByte, 2)
-										X_player1 += 511;
+										keys_Player1[7]=1;
+        else
+                    keys_Player1[7]=0;
 				if bitRead(incomingByte, 3)
-										X_player1 -= 512;
-				//Joystick.X(X_player1);
+										keys_Player1[6]=1;
+        else
+                    keys_Player1[6]=0;
 				if bitRead(incomingByte, 4)
-										Y_player1 += 511;
+										keys_Player1[5]=1;
+        else
+                    keys_Player1[5]=0;
 				if bitRead(incomingByte, 5)
-										Y_player1 -= 512;
-				//Joystick.Y(Y_player1);
-				Joystick.button(7,bitRead(incomingByte, 6));
+										keys_Player1[4]=1;
+         else
+                    keys_Player1[4]=0;
+				//Joystick.button(7,bitRead(incomingByte, 6)); // Service à voir
 			}
 			break;
 		case 4:
@@ -140,39 +201,61 @@ void JVS::switches(int board) {
 			if (shift_mode) {
 
 			} else {
-				Joystick.button(9,bitRead(incomingByte, 2));
-				Joystick.button(10,bitRead(incomingByte, 3));
-				Joystick.button(11,bitRead(incomingByte, 4));
-				Joystick.button(12,bitRead(incomingByte, 5));
-				Joystick.button(13,bitRead(incomingByte, 6));
-				Joystick.button(14,bitRead(incomingByte, 7));
+				if bitRead(incomingByte, 7)
+                    keys_Player1[8]=1;
+        else
+                    keys_Player1[8]=0;
+        if bitRead(incomingByte, 6)
+                    keys_Player1[9]=1;
+        else
+                    keys_Player1[9]=0;
+        if bitRead(incomingByte, 5)
+                    keys_Player1[10]=1;
+        else
+                    keys_Player1[10]=0; 
+        if bitRead(incomingByte, 4)
+                    keys_Player1[11]=1;
+        else
+                    keys_Player1[11]=0; 
 			}
 			break;
 		case 5:
 			// p2 b1
 			if (shift_mode) {
 				if(bitRead(incomingByte, 7))
-					key = KEY_ESC;
-				if (key)
+					keys_Specials[0]=1;
+				if (keys_Specials[0])
 					pressed_smth = true;
 			} else {
-				Joystick2.button(1,bitRead(incomingByte, 1));
-				Joystick2.button(2,bitRead(incomingByte, 0));
-				if bitRead(incomingByte, 2)
-										X_player2 += 511;
-				if bitRead(incomingByte, 3)
-										X_player2 -= 512;
-				//Joystick2.X(X_player2);
-				if bitRead(incomingByte, 4)
-										Y_player2 += 511;
-				if bitRead(incomingByte, 5)
-										Y_player2 -= 512;
-				//Joystick2.Y(Y_player2);
-				Joystick2.button(7,bitRead(incomingByte, 6));
+				if bitRead(incomingByte, 1)
+                    keys_Player2[0]=1;
+        else
+                    keys_Player2[0]=0;
+        if bitRead(incomingByte, 0)
+                    keys_Player2[1]=1;
+        else
+                    keys_Player2[1]=0;
+        if bitRead(incomingByte, 2)
+                    keys_Player2[7]=1;
+        else
+                    keys_Player2[7]=0;
+        if bitRead(incomingByte, 3)
+                    keys_Player2[6]=1;
+        else
+                    keys_Player2[6]=0;
+        if bitRead(incomingByte, 4)
+                    keys_Player2[5]=1;
+        else
+                    keys_Player2[5]=0;
+        if bitRead(incomingByte, 5)
+                    keys_Player2[4]=1;
+         else
+                    keys_Player2[4]=0;
+				//Joystick2.button(7,bitRead(incomingByte, 6)); //Service
 				if bitRead(incomingByte, 7)
-					Keyboard.press(KEY_2);
+					keys_Player2[3]=1;
 				else
-					Keyboard.release(KEY_2);
+					keys_Player2[3]=0;
 			}
 			break;
 		case 6:
@@ -180,12 +263,22 @@ void JVS::switches(int board) {
 			if (shift_mode) {
 
 			} else {
-				Joystick2.button(25,bitRead(incomingByte, 2));
-				Joystick2.button(26,bitRead(incomingByte, 3));
-				Joystick2.button(27,bitRead(incomingByte, 4));
-				Joystick2.button(28,bitRead(incomingByte, 5));
-				Joystick2.button(29,bitRead(incomingByte, 6));
-				Joystick2.button(30,bitRead(incomingByte, 7));
+        if bitRead(incomingByte, 7)
+                    keys_Player2[8]=1;
+        else
+                    keys_Player2[8]=0;
+        if bitRead(incomingByte, 6)
+                    keys_Player2[9]=1;
+        else
+                    keys_Player2[9]=0;
+        if bitRead(incomingByte, 5)
+                    keys_Player2[10]=1;
+        else
+                    keys_Player2[10]=0; 
+        if bitRead(incomingByte, 4)
+                    keys_Player2[11]=1;
+        else
+                    keys_Player2[11]=0; 
 			}
 			break;
 		case 8:
@@ -200,11 +293,11 @@ void JVS::switches(int board) {
 			}
 			if (coin1){
 				coin_pressed_at = millis();
-				Keyboard.press(KEY_5);
+				keys_Player1[2]=1;
 			} else if (coin_pressed_at > 0){
 				if (millis() - coin_pressed_at > 50){
 					coin_pressed_at = 0;
-					Keyboard.release(KEY_5);
+					keys_Player1[2]=0;
 				}
 			}
 			break;
@@ -220,11 +313,11 @@ void JVS::switches(int board) {
       }
       if (coin2){
         coin_pressed_at = millis();
-        Keyboard.press(KEY_6);
+        keys_Player2[2]=1;
       } else if (coin_pressed_at > 0){
         if (millis() - coin_pressed_at > 50){
           coin_pressed_at = 0;
-          Keyboard.release(KEY_6);
+          keys_Player2[2]=0;
         }
       }
       break;
@@ -272,22 +365,26 @@ void JVS::switches(int board) {
     Joystick2.send_now();
 	}
 
-	if (key){
-		if (key != old_key){
-			old_key = key;
-		//	Serial.print("pressed key: ");
-		//	Serial.println(key, HEX);
-			Keyboard.set_key1(key);
-		}
-	} else {
-		if (old_key){
-	//	Serial.print("old_key: ");
-	//	Serial.println(old_key, HEX);
-		Keyboard.set_key1(0);
-		old_key = 0;
-		}
-	}
-	Keyboard.send_now();
+  for (nbKeys = 0; nbKeys < 12; nbKeys++) {
+    // Player 1
+    if (keys_Player1[nbKeys])
+      Keyboard.pressKey(keymap1[nbKeys]);
+    else
+      Keyboard.releaseKey(keymap1[nbKeys]);
+    // Player 2
+    if (keys_Player2[nbKeys])
+      Keyboard.pressKey(keymap2[nbKeys]);
+    else
+      Keyboard.releaseKey(keymap2[nbKeys]);
+  }
+  for (nbKeys = 0; nbKeys < 4; nbKeys++) {
+      // Special Keys
+    if (keys_Specials[nbKeys])
+      Keyboard.pressKey(keymap3[nbKeys]);
+    else
+      Keyboard.releaseKey(keymap3[nbKeys]);
+  }
+	Keyboard.send();
 	delay(SWCH_DELAY);
 
 	//	if (coins1 > 0){
