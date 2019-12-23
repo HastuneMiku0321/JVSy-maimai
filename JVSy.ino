@@ -6,13 +6,15 @@ JVS j = JVS(Uart);
 unsigned long lastTime = 0;
 
 void setup()
-{
+{          
 	Serial.begin(115200);
 	Uart.begin(115200, DE_PIN);
 	Joystick.useManualSend(true);
   Joystick2.useManualSend(true);
 	delay(START_DELAY);
 	Serial.println("Start");
+  pinMode(11, OUTPUT);
+  digitalWrite(11, HIGH);
 	while (!j.initialized){
 		j.reset();
 		int i = 1;
