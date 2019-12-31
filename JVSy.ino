@@ -1,12 +1,13 @@
 #include "JVSy.h"
 #include "JVS.h"
+#include "Constants.h"
 
 HardwareSerial Uart = HardwareSerial();
 JVS j = JVS(Uart);
 unsigned long lastTime = 0;
 
 void setup()
-{          
+{   
 	Serial.begin(115200);
 	Uart.begin(115200, DE_PIN);
 	Joystick.useManualSend(true);

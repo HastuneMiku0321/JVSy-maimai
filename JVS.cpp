@@ -13,50 +13,6 @@ bool analog;
 bool mirroring;
 bool full_joy;
 
-/*int keys_Player1[16];   // Touches Joueur 1
-  /int keys_Player2[16];   // Touches Joueur 2
-  int keys_Specials[4];   // Touches Speciales
-  const unsigned int keymap1[] = {        // Player 1
-  KEY_LEFT_CTRL,      // Button 1
-  KEY_LEFT_ALT,       // Button 2
-  KEY_5,              // Coin
-  KEY_1,              // Start
-  KEY_UP,             // Up
-  KEY_DOWN,           // Down
-  KEY_LEFT,           // Left
-  KEY_RIGHT,          // Right
-  KEY_SPACE,          // Button 3
-  KEY_LEFT_SHIFT,     // Button 4
-  KEY_Z,              // Button 5
-  KEY_X,              // Button 6
-  KEY_C,              // Button 7
-  KEY_F               // Button 8
-  };
-
-  const unsigned int keymap2[] = {       // Player 2
-  KEY_A,              // Button 1
-  KEY_S,              // Button 2
-  KEY_6,              // Coin
-  KEY_2,              // Start
-  KEY_R,              // Up
-  KEY_F,              // Down
-  KEY_D,              // Left
-  KEY_G,              // Right
-  KEY_Q,              // Button 3
-  KEY_W,              // Button 4
-  KEY_I,              // Button 5
-  KEY_K,              // Button 6
-  KEY_J,              // Button 7
-  KEY_L               // Button 8
-  };
-
-  const unsigned int keymap3[] = {       // Specials
-  KEY_ESC,            // EXIT
-  KEY_TAB,            // Menu Mame
-  KEY_P,              // Pause
-  KEY_ENTER,          // Enter
-  };*/
-
 JVS::JVS(HardwareSerial& serial) :
   _Uart(serial) // Need to initialize references before body
 {
@@ -90,7 +46,7 @@ void JVS::reset() {
     Serial.println("Mirroring active");
   if (full_joy)
     Serial.println("Full Joystick active");
-  Serial.println("RESET");
+  Serial.println("RESET");  
 }
 
 void JVS::assign(int attempt) {
@@ -127,7 +83,6 @@ void JVS::switches(int board) {
   //char str[ ] = { 0x20, 0x02, 0x02, 0x21, 0x02, 0x22, 0x08};
   this->write_packet(board, str, sizeof str);
   char incomingByte;
-  int nbKeys;
   while (!_Uart.available()) {
   }
   while (_Uart.read() != 0xE0) {
@@ -165,6 +120,17 @@ void JVS::switches(int board) {
     if (DEBUG_MODE) {
       Serial.print(" ");
       Serial.print(incomingByte, HEX);
+      Serial.print(" ");
+      Serial.print(incomingByte, DEC);
+    }
+      Serial.print(" ");
+      Serial.print(incomingByte, HEX);
+      Serial.print(" ");
+      Serial.print(incomingByte, DEC); 
+      if ((int) incomingByte == 0xFFFFFFD0) {
+       int escapeByte =  _Uart.read();
+        if (escapeByte == 0xDF)
+            incomingByte = 0xE0;
     }
     switch (counter) {
       // fourth byte (first three bytes are sync and
@@ -204,7 +170,6 @@ void JVS::switches(int board) {
 
         } else {
           if (full_joy) {
-            Serial.println("On passe bien dans le fulljoy");
             Joystick.button(1, bitRead(incomingByte, 1));
             Joystick.button(2, bitRead(incomingByte, 0));
             if bitRead(incomingByte, 2)
@@ -224,39 +189,27 @@ void JVS::switches(int board) {
             } else {
               if bitRead(incomingByte, 1)
                 Keyboard.pressModifier(KEY_LEFT_CTRL);
-              //keys_Player1[0]=1;
               else
                 Keyboard.releaseModifier(KEY_LEFT_CTRL);
-              //keys_Player1[0]=0;
               if bitRead(incomingByte, 0)
                 Keyboard.pressModifier(KEY_LEFT_ALT);
-              //keys_Player1[1]=1;
               else
                 Keyboard.releaseModifier(KEY_LEFT_ALT);
-              //keys_Player1[1]=0;
               if bitRead(incomingByte, 2)
-                //keys_Player1[7]=1;
                 Keyboard.pressKey(KEY_RIGHT);
               else
-                //keys_Player1[7]=0;
                 Keyboard.releaseKey(KEY_RIGHT);
               if bitRead(incomingByte, 3)
-                //keys_Player1[6]=1;
                 Keyboard.pressKey(KEY_LEFT);
               else
-                //keys_Player1[6]=0;
                 Keyboard.releaseKey(KEY_LEFT);
               if bitRead(incomingByte, 4)
-                //keys_Player1[5]=1;
                 Keyboard.pressKey(KEY_DOWN);
               else
-                //keys_Player1[5]=0;
                 Keyboard.releaseKey(KEY_DOWN);
               if bitRead(incomingByte, 5)
-                //keys_Player1[4]=1;
                 Keyboard.pressKey(KEY_UP);
               else
-                //keys_Player1[4]=0;
                 Keyboard.releaseKey(KEY_UP);
               //Joystick.button(7,bitRead(incomingByte, 6)); // Service à voir
             }
@@ -280,42 +233,29 @@ void JVS::switches(int board) {
               Joystick.button(3, bitRead(incomingByte, 7));
             } else {
               if bitRead(incomingByte, 5)
-                //keys_Player1[10]=1;
                 Keyboard.pressKey(KEY_Z);
               else
-                //keys_Player1[10]=0;
                 Keyboard.releaseKey(KEY_Z);
               if bitRead(incomingByte, 4)
-                //keys_Player1[11]=1;
                 Keyboard.pressKey(KEY_X);
-
               else
-                //keys_Player1[11]=0;
                 Keyboard.releaseKey(KEY_X);
               if bitRead(incomingByte, 3)
-                //keys_Player1[12]=1;`
                 Keyboard.pressKey(KEY_C);
               else
-                //keys_Player1[12]=0;
                 Keyboard.releaseKey(KEY_C);
               if bitRead(incomingByte, 2)
-                //keys_Player1[13]=1;
                 Keyboard.pressKey(KEY_C);
               else
-                //keys_Player1[13]=0;
                 Keyboard.releaseKey(KEY_F);
               if bitRead(incomingByte, 7)
-                //keys_Player1[8]=1;
                 Keyboard.pressKey(KEY_SPACE);
               else
-                //keys_Player1[8]=0;
                 Keyboard.releaseKey(KEY_SPACE);
               if bitRead(incomingByte, 6)
                 Keyboard.pressModifier(KEY_LEFT_SHIFT);
-              //keys_Player1[9]=1;
               else
                 Keyboard.releaseModifier(KEY_LEFT_SHIFT);
-              //keys_Player1[9]=0;
             }
           }
         }
@@ -329,10 +269,8 @@ void JVS::switches(int board) {
           }
         } else {
           if bitRead(incomingByte, 7)
-            //keys_Player2[3]=1;
             Keyboard.pressKey(KEY_2);
           else
-            //keys_Player2[3]=0;
             Keyboard.releaseKey(KEY_2);
         }
         if (full_joy) {
@@ -354,40 +292,28 @@ void JVS::switches(int board) {
             Joystick2.button(2, bitRead(incomingByte, 0));
           } else {
             if bitRead(incomingByte, 1)
-              //keys_Player2[0]=1;
               Keyboard.pressKey(KEY_A);
             else
-              //keys_Player2[0]=0;
               Keyboard.releaseKey(KEY_A);
             if bitRead(incomingByte, 0)
-              //keys_Player2[1]=1;
               Keyboard.pressKey(KEY_S);
             else
-              //keys_Player2[1]=0;
               Keyboard.releaseKey(KEY_S);
             if bitRead(incomingByte, 2)
-              //keys_Player2[7]=1;
               Keyboard.pressKey(KEY_G);
             else
-              //keys_Player2[7]=0;
               Keyboard.releaseKey(KEY_G);
             if bitRead(incomingByte, 3)
-              //keys_Player2[6]=1;
               Keyboard.pressKey(KEY_D);
             else
-              //keys_Player2[6]=0;
               Keyboard.releaseKey(KEY_D);
             if bitRead(incomingByte, 4)
-              //keys_Player2[5]=1;
               Keyboard.pressKey(KEY_F);
             else
-              //keys_Player2[5]=0;
               Keyboard.releaseKey(KEY_F);
             if bitRead(incomingByte, 5)
-              //keys_Player2[4]=1;
               Keyboard.pressKey(KEY_R);
             else
-              //keys_Player2[4]=0;
               Keyboard.releaseKey(KEY_R);
             //Joystick2.button(7,bitRead(incomingByte, 6)); //Service
           }
@@ -410,40 +336,28 @@ void JVS::switches(int board) {
             Joystick2.button(3, bitRead(incomingByte, 7));
           } else {
             if bitRead(incomingByte, 7)
-              //keys_Player2[8]=1;
               Keyboard.pressKey(KEY_Q);
             else
-              //keys_Player2[8]=0;
               Keyboard.releaseKey(KEY_Q);
             if bitRead(incomingByte, 6)
-              //keys_Player2[9]=1;
               Keyboard.pressKey(KEY_W);
             else
-              //keys_Player2[9]=0;
               Keyboard.releaseKey(KEY_W);
             if bitRead(incomingByte, 5)
-              //keys_Player2[10]=1;
               Keyboard.pressKey(KEY_I);
             else
-              //keys_Player2[10]=0;
               Keyboard.releaseKey(KEY_I);
             if bitRead(incomingByte, 4)
-              //keys_Player2[11]=1;
               Keyboard.pressKey(KEY_K);
             else
-              //keys_Player2[11]=0;
               Keyboard.releaseKey(KEY_K);
             if bitRead(incomingByte, 3)
-              //keys_Player2[12]=1;
               Keyboard.pressKey(KEY_J);
             else
-              //keys_Player2[12]=0;
               Keyboard.releaseKey(KEY_J);
             if bitRead(incomingByte, 2)
-              //keys_Player2[13]=1;
               Keyboard.pressKey(KEY_L);
             else
-              //keys_Player2[13]=0;
               Keyboard.releaseKey(KEY_L);
           }
         }
