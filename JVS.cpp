@@ -222,7 +222,12 @@ void JVS::switches(int board) {
 
         } else {
           if (analog) {
-            Joystick.button(3, bitRead(incomingByte, 7));
+              Joystick.button(8, bitRead(incomingByte, 2));
+              Joystick.button(7, bitRead(incomingByte, 3));
+              Joystick.button(6, bitRead(incomingByte, 4));
+              Joystick.button(5, bitRead(incomingByte, 5));
+              Joystick.button(4, bitRead(incomingByte, 6));
+              Joystick.button(3, bitRead(incomingByte, 7));
           } else {
             if (full_joy) {
               Joystick.button(8, bitRead(incomingByte, 2));
@@ -333,7 +338,12 @@ void JVS::switches(int board) {
           Joystick2.button(3, bitRead(incomingByte, 7));
         } else {
           if (analog) {
-            Joystick2.button(3, bitRead(incomingByte, 7));
+          Joystick2.button(8, bitRead(incomingByte, 2));
+          Joystick2.button(7, bitRead(incomingByte, 3));
+          Joystick2.button(6, bitRead(incomingByte, 4));
+          Joystick2.button(5, bitRead(incomingByte, 5));
+          Joystick2.button(4, bitRead(incomingByte, 6));
+          Joystick2.button(3, bitRead(incomingByte, 7));
           } else {
             if bitRead(incomingByte, 7)
               Keyboard.pressKey(KEY_Q);
