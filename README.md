@@ -31,3 +31,26 @@ Sammy Atomiswave
 
 Merci à k4roshi pour son travail dont est issu ce projet.
 
+
+JVSY is a lowcost opensource solution to interface a PC with an arcade cabinet compliant with the JVS standard*. The computer detects cabinet controls as USB Direct Input game controllers.
+
+This solution is based on a Teensy V2 development board and a SN65176B chip allowing communication over the RS485 protocol used by the JVS bus. An additional PCB was designed to simplify the connection between components and to integrate a dipswitch to easily select the different supported modes and options.
+Currently, JVSy is a lowcost alternative to regular market solutions like JVS-PAC or JVS-Strike with the benefit of the guncabs support. Thus it is possible to play with emulators to games designed for optical guns like Point Blank or games designed for positional guns like Terminator 2 on a Naomi Universal guncab like Confidential Mission for instance.
+
+JVSy development is active and ongoing. The following features are under development :
+
+- I/O boards link : will allow to link arcade cabinets together and allow 4 players simultanous play over 2 separate cabinets.
+
+- Trackball support : chaining I/O boards will also allow to support control panels that are specific to games like Outriggers or Virtual Golf using a trackball plugged on a secondary mini I/O board integrated to the panel.
+
+- Analog sticks support as the ones found on control panels for games like Virtual Strikers or some more recent games on HD cabinets like Final Fantasy Dissidia.
+
+(*)see list of confirmed compatible cabinets
+Confirmed compatible cabinets :
+Sega Naomi Universal Cabinet (NUC), Sega New Net City, Namco Noir HD¹, Konami Windy 2
+Compatibility to be confirmed :
+Taito Vewlix (standard JVS I/O only , no Fast I/O), Taito Egret 3, Sega Blast City, Sega Lindbergh, Namco Cyberlead, Sammy Atomiswave...
+(¹) Option to activate
+
+Many thanks to k4roshi for his work which was the base for this project.
+
