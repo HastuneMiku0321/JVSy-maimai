@@ -1,73 +1,34 @@
-#JVSy
-Open source JVS to PC interface using a Teensy
+Presentation 
+Le JVSy est une solution opensource à bas coût  pour interfacer un PC avec une borne d'arcade au standard JVS*. Le PC détecte les contrôles de la borne en tant que contrôleurs de jeu USB Direct Input.
 
-##Description
-JVSy lets you connect your JVS controls (digital joystick and buttons for now, analog and lightguns are WIP) to your PC and use them as controls, for MAME or other purposes. 
+La solution s'appuie sur une carte de développement Teensy V2 et une puce SN65176B permettant la communication sur le protocole RS485 utilisé par le bus JVS. Une PCB additionnelle a été désignée dans le but de simplifier le raccordement des composants et d'intégrer un dipswitch pour la sélection facile des différents mode et options supportés.
 
-In its current state it's basically an open source JVS-PAC clone.
+En l'état actuel du projet, le JVSy est une solution à bas coût aux produits du marché tels que le JVS-PAC ou le JVS-Strike avec l'avantage d'offrir un support pour les guncabs. Il est donc possible de jouer en émulation à des jeux prévus pour des pistolets optiques comme Point Blank ou des pistolets positionnels comme Terminator 2 sur une borne de tir Naomi Universal comme Confidential Mission par exemple.
 
-It's currently a work in progress and tested only with digital inputs on a Naomi Universal cabinet.
+Le développement du JVSy est actif et en cours et l'ajout des fonctionnalités suivantes est en développement :
+- le chaînage d'I/O boards : pour linker des bornes ensemble et avoir une configuration Versus Fighting où chaque joueur joue sur une borne ou bien pour permettre le jeu simultané à 4 joueurs répartis sur 2 bornes.
+- le support des trackballs : le chaînage d'I/O permettra également le support des panels spécifiques à certains jeux comme Outriggers ou Virtua Golf utilisant un trackball sur une mini I/O board secondaire intégrée au panel.
+- le support des sticks analogiques tels que ceux utilisés sur les panels des jeux Virtua Strikers ou des jeux plus récents des bornes HD comme Final Fantasy Dissidia.
 
-###Tech description
-JVSy is an implementation of a JVS I/O host using a teensy 2.0 and an RS-485 to serial interface. The signals read from the other nodes are then converted to standard HID Joystick and keyboard signals.
 
 
-##Hardware
-The hardware requires an USB female port, an RS-485 interface and a Teensy 2.0. It has been tested only with an SN75176B and a teensy 2.0, but should also work with a MAX 485. Teensy 2.0++ and Teensy 3.x can be supported in the future.
+(*)voir liste des bornes compatibles
 
-###Connections
+Bornes compatibles (liste non-exhaustive) :
+Sega Naomi Universal Cabinet (NUC)
+Sega New Net City
+Namco Noir HD¹
+Konami Windy 2
 
-SN65176B:
-- Pin 1: Teensy D2
-- Pin 2: Teensy F6
-- Pin 3: Teensy F6
-- Pin 4: Teensy D3
-- Pin 5: Teensy GND
-- Pin 6: USB Data+
-- Pin 7: USB Data-
-- Pin 8: Teensy VCC
+Compatibilité à évaluer :
+Taito Vewlix (I/O standard, pas de Fast I/O)
+Taito Egret 3
+Sega Blast City
+Sega Lindbergh
+Namco Cyberlead
+Sammy Atomiswave
 
-USB:
-- RED (5v): Teensy B4
-- WHITE (Data -): SN65176B 7
-- GREEN (Data +): SN65176B 6
-- BLACK (GND): Teensy GND
+(¹) Option à activer
 
-When built, connect the usb cable that comes from your sega i/o board to the usb port you just soldered, while you connect the teensy to your pc with the standard usb port. If flashed correctly it will be recognized as a joystick hid device.
+Merci à k4roshi pour son travail dont est issu ce projet.
 
-##Buttons setup
-Controls for both player one and two and report as a single HID device.
-
-- Joystick 1 is mapped to X and Y axes.
-- Joystick 2 is mapped to Z and Za axes
-- Buttons are mapped to the corresponding joystick button
-- P1 and P2 start are mapped to keyboard '1' and '2'
-
-P1 start acts as shift button, when pressed simultaneously these keys are pressed instead of the default buttons:
-
-- P1 button 1: coin (presses keyboard 5)
-- J1 right: Tab
-- J1 down: P (pause)
-- J1 left: enter
-- P2: esc
-
-Ask for other shift modes, if you need them. I'll see what i can do.
-
-You need a new "board" for compiling, just add this content to your hardware directory and select "Keyboard + 2 Joysticks" https://github.com/gtranche/teensyjvsy
-
-##Known Limitations
-Doesn't work with analog controls or lightguns, as I don't have any of those to test it with. If you're willing to help, just send me a message.
-
-##TODO
-- analog controls are being tested
-- draw schematics
-- multi nodes
-
-##Thanks
-invzim, creator of JVS-PAC, for the inspiration.
-
-@roysmeding for the wonderful reverse engineering done for Open JVS (https://github.com/TheOnlyJoey/openjvs) and the helpful attitude.
-
-##License
-The license is GPLv3 for all non commercial purposes.
-Contact me directly if you want to use it commercially.
