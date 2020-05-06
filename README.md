@@ -14,18 +14,18 @@ Le développement du JVSy est actif et en cours et l'ajout des fonctionnalités 
 (*)voir liste des bornes compatibles
 
 Bornes compatibles (liste non-exhaustive) :
-Sega Naomi Universal Cabinet (NUC)
-Sega New Net City
-Namco Noir HD¹
-Konami Windy 2
+* Sega Naomi Universal Cabinet (NUC)
+* Sega New Net City
+* Namco Noir HD¹
+* Konami Windy 2
 
 Compatibilité à évaluer :
-Taito Vewlix (I/O standard, pas de Fast I/O)
-Taito Egret 3
-Sega Blast City
-Sega Lindbergh
-Namco Cyberlead
-Sammy Atomiswave
+* Taito Vewlix (I/O standard, pas de Fast I/O)
+* Taito Egret 3
+* Sega Blast City
+* Sega Lindbergh
+* Namco Cyberlead
+* Sammy Atomiswave
 
 (¹) Option à activer
 
@@ -47,9 +47,18 @@ JVSy development is active and ongoing. The following features are under develop
 
 (*)see list of confirmed compatible cabinets
 Confirmed compatible cabinets :
-Sega Naomi Universal Cabinet (NUC), Sega New Net City, Namco Noir HD¹, Konami Windy 2
+* Sega Naomi Universal Cabinet (NUC),
+* Sega New Net City,
+* Namco Noir HD¹,
+* Konami Windy 2
+
 Compatibility to be confirmed :
-Taito Vewlix (standard JVS I/O only , no Fast I/O), Taito Egret 3, Sega Blast City, Sega Lindbergh, Namco Cyberlead, Sammy Atomiswave...
+* Taito Vewlix (standard JVS I/O only , no Fast I/O),
+* Taito Egret 3,
+* Sega Blast City,
+* Sega Lindbergh,
+* Namco Cyberlead,
+* Sammy Atomiswave...
 (¹) Option to activate
 
 Many thanks to k4roshi for his work which was the base for this project.
