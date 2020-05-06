@@ -59,6 +59,7 @@ Compatibility to be confirmed :
 * Sega Lindbergh,
 * Namco Cyberlead,
 * Sammy Atomiswave...
+
 (¹) Option to activate
 
 Many thanks to k4roshi for his work which was the base for this project.
