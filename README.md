@@ -1,4 +1,3 @@
-Presentation 
 Le JVSy est une solution opensource à bas coût  pour interfacer un PC avec une borne d'arcade au standard JVS*. Le PC détecte les contrôles de la borne en tant que contrôleurs de jeu USB Direct Input.
 
 La solution s'appuie sur une carte de développement Teensy V2 et une puce SN65176B permettant la communication sur le protocole RS485 utilisé par le bus JVS. Une PCB additionnelle a été désignée dans le but de simplifier le raccordement des composants et d'intégrer un dipswitch pour la sélection facile des différents mode et options supportés.
