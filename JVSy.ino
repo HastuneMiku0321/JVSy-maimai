@@ -19,9 +19,10 @@ void setup()
 	while (!j.initialized){
 		j.reset();
 		int i = 1;
-		while (analogRead(SENSE_PIN) > 20){
+		//while (analogRead(SENSE_PIN) > 20){
 			j.init(i++);
-		}
+		//}
+   // L'IO board de la Noir Cab ne semble pas modifier son sense après l'initialisation
 		// USE THIS TO REBOOT, IF NEEDED
 		// _restart_Teensyduino_();
 	}

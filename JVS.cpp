@@ -107,6 +107,7 @@ void JVS::switches(int board) {
   Keyboard.releaseKey(KEY_ENTER);
   Keyboard.releaseKey(KEY_6);
   Keyboard.releaseKey(KEY_1);
+  Joystick.button(9, 0);
 
 
   if	(DEBUG_MODE) {
@@ -134,6 +135,12 @@ void JVS::switches(int board) {
     }
     switch (counter) {
       // fourth byte (first three bytes are sync and
+      case 2:
+      //TEST
+      if bitRead(incomingByte, 7)
+        Keyboard.pressModifier(KEY_F2);
+      else
+        Keyboard.releaseModifier(KEY_F2);
       case 3:
         // p1 b1
         shift_mode = bitRead(incomingByte, 7);
@@ -141,7 +148,11 @@ void JVS::switches(int board) {
         if (shift_mode != old_shift) {
           if (shift_mode == 0 && !pressed_smth) {
             //never pressed anything, wants start
-            Keyboard.pressKey(KEY_1);
+              if (full_joy) {
+                Joystick.button(9, 1);
+              } else {
+                Keyboard.pressKey(KEY_1);
+              }
           }
           else
             pressed_smth = false;
@@ -187,6 +198,10 @@ void JVS::switches(int board) {
               Joystick.button(1, bitRead(incomingByte, 1));
               Joystick.button(2, bitRead(incomingByte, 0));
             } else {
+              if bitRead(incomingByte, 6)
+                Keyboard.pressModifier(KEY_9);
+              else
+                Keyboard.releaseModifier(KEY_0);
               if bitRead(incomingByte, 1)
                 Keyboard.pressModifier(KEY_LEFT_CTRL);
               else
@@ -211,6 +226,10 @@ void JVS::switches(int board) {
                 Keyboard.pressKey(KEY_UP);
               else
                 Keyboard.releaseKey(KEY_UP);
+              if bitRead(incomingByte, 6)
+                Keyboard.pressModifier(KEY_9);
+              else
+                Keyboard.releaseModifier(KEY_9);
               //Joystick.button(7,bitRead(incomingByte, 6)); // Service à voir
             }
           }
@@ -219,7 +238,10 @@ void JVS::switches(int board) {
       case 4:
         // p1 b2
         if (shift_mode) {
-
+          if (bitRead(incomingByte, 7)) {
+            Keyboard.pressKey(KEY_ESC);
+            pressed_smth = true;
+          }
         } else {
           if (analog) {
               Joystick.button(8, bitRead(incomingByte, 2));
@@ -273,11 +295,15 @@ void JVS::switches(int board) {
             pressed_smth = true;
           }
         } else {
-          if bitRead(incomingByte, 7)
-            Keyboard.pressKey(KEY_2);
-          else
-            Keyboard.releaseKey(KEY_2);
-        }
+           if (full_joy) {
+                Joystick2.button(9, bitRead(incomingByte, 7));
+              } else {
+                if bitRead(incomingByte, 7)
+                  Keyboard.pressKey(KEY_2);
+                else
+                  Keyboard.releaseKey(KEY_2);
+                }
+          }
         if (full_joy) {
           Joystick2.button(1, bitRead(incomingByte, 1));
           Joystick2.button(2, bitRead(incomingByte, 0));
@@ -296,6 +322,7 @@ void JVS::switches(int board) {
             Joystick2.button(1, bitRead(incomingByte, 1));
             Joystick2.button(2, bitRead(incomingByte, 0));
           } else {
+            
             if bitRead(incomingByte, 1)
               Keyboard.pressKey(KEY_A);
             else
@@ -320,6 +347,10 @@ void JVS::switches(int board) {
               Keyboard.pressKey(KEY_R);
             else
               Keyboard.releaseKey(KEY_R);
+            if bitRead(incomingByte, 6)
+              Keyboard.pressModifier(KEY_0);
+            else
+              Keyboard.releaseModifier(KEY_0);
             //Joystick2.button(7,bitRead(incomingByte, 6)); //Service
           }
         }
