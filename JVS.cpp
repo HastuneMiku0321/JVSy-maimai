@@ -138,9 +138,9 @@ void JVS::switches(int board) {
       case 2:
       //TEST
       if bitRead(incomingByte, 7)
-        Keyboard.pressModifier(KEY_F2);
+        Keyboard.pressKey(KEY_F2);
       else
-        Keyboard.releaseModifier(KEY_F2);
+        Keyboard.releaseKey(KEY_F2);
       break;
       case 3:
         // p1 b1
@@ -224,9 +224,9 @@ void JVS::switches(int board) {
               else
                 Keyboard.releaseKey(KEY_UP);
               if bitRead(incomingByte, 6)
-                Keyboard.pressModifier(KEY_9);
+                Keyboard.pressKey(KEY_9);
               else
-                Keyboard.releaseModifier(KEY_9);
+                Keyboard.releaseKey(KEY_9);
               //Joystick.button(7,bitRead(incomingByte, 6)); // Service à voir
             }
           }
@@ -345,9 +345,9 @@ void JVS::switches(int board) {
             else
               Keyboard.releaseKey(KEY_R);
             if bitRead(incomingByte, 6)
-              Keyboard.pressModifier(KEY_0);
+              Keyboard.pressKey(KEY_0);
             else
-              Keyboard.releaseModifier(KEY_0);
+              Keyboard.releaseKey(KEY_0);
             //Joystick2.button(7,bitRead(incomingByte, 6)); //Service
           }
         }
