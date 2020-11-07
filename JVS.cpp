@@ -141,6 +141,7 @@ void JVS::switches(int board) {
         Keyboard.pressModifier(KEY_F2);
       else
         Keyboard.releaseModifier(KEY_F2);
+      break;
       case 3:
         // p1 b1
         shift_mode = bitRead(incomingByte, 7);
@@ -198,10 +199,6 @@ void JVS::switches(int board) {
               Joystick.button(1, bitRead(incomingByte, 1));
               Joystick.button(2, bitRead(incomingByte, 0));
             } else {
-              if bitRead(incomingByte, 6)
-                Keyboard.pressModifier(KEY_9);
-              else
-                Keyboard.releaseModifier(KEY_0);
               if bitRead(incomingByte, 1)
                 Keyboard.pressModifier(KEY_LEFT_CTRL);
               else
