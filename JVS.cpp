@@ -236,7 +236,7 @@ void JVS::switches(int board) {
         // p1 b2
         if (shift_mode) {
           if (bitRead(incomingByte, 7)) {
-            Keyboard.pressKey(KEY_ESC);
+            //Keyboard.pressKey(KEY_ESC);
             pressed_smth = true;
           }
         } else {
@@ -290,7 +290,7 @@ void JVS::switches(int board) {
           if (bitRead(incomingByte, 7)) {
             Keyboard.pressKey(KEY_ESC);
             pressed_smth = true;
-          }
+         }
         } else {
            if (full_joy) {
                 Joystick2.button(9, bitRead(incomingByte, 7));
@@ -417,7 +417,7 @@ void JVS::switches(int board) {
         } else if (coin_pressed_at > 0) {
           if (millis() - coin_pressed_at > 50) {
             coin_pressed_at = 0;
-            Keyboard.pressKey(KEY_5);
+            Keyboard.releaseKey(KEY_5);
           }
         }
         break;
@@ -437,7 +437,7 @@ void JVS::switches(int board) {
         } else if (coin_pressed_at > 0) {
           if (millis() - coin_pressed_at > 50) {
             coin_pressed_at = 0;
-            Keyboard.pressKey(KEY_6);
+            Keyboard.releaseKey(KEY_6);
           }
         }
         break;
