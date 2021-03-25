@@ -137,10 +137,14 @@ void JVS::switches(int board) {
       // fourth byte (first three bytes are sync and
       case 2:
       //TEST
-      if bitRead(incomingByte, 7)
-        Keyboard.pressKey(KEY_F2);
-      else
-        Keyboard.releaseKey(KEY_F2);
+      if (full_joy) {
+        Joystick.button(10, bitRead(incomingByte, 1));
+      } else {
+        if bitRead(incomingByte, 7)
+          Keyboard.pressKey(KEY_F2);
+        else
+          Keyboard.releaseKey(KEY_F2);
+      }
       break;
       case 3:
         // p1 b1
