@@ -194,7 +194,7 @@ void JVS::switches(int board) {
             if bitRead(incomingByte, 5)
               Y_player1 -= 512;
             Joystick.Y(Y_player1);
-            Joystick.button(7,bitRead(incomingByte, 6)); 
+            Joystick.button(9,bitRead(incomingByte, 6)); 
           } else {
             if (analog) {
               Joystick.button(1, bitRead(incomingByte, 1));
