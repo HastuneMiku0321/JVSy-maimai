@@ -138,7 +138,7 @@ void JVS::switches(int board) {
       case 2:
       //TEST
       if (full_joy) {
-        Joystick.button(10, bitRead(incomingByte, 1));
+        Joystick.button(11, bitRead(incomingByte, 1));
       } else {
         if bitRead(incomingByte, 7)
           Keyboard.pressKey(KEY_F2);
@@ -198,7 +198,7 @@ void JVS::switches(int board) {
             if bitRead(incomingByte, 5)
               Y_player1 -= 512;
             Joystick.Y(Y_player1);
-            Joystick.button(9,bitRead(incomingByte, 6)); 
+            Joystick.button(10,bitRead(incomingByte, 6)); 
           } else {
             if (analog) {
               Joystick.button(1, bitRead(incomingByte, 1));
