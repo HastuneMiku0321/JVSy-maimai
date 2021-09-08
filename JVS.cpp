@@ -209,17 +209,17 @@ void JVS::switches(int board) {
               else
                 Keyboard.releaseModifier(KEY_LEFT_CTRL);
               if bitRead(incomingByte, 0) // maimai p1 b4
-                Keyboard.pressKey(KEY_4);
-              else
                 Keyboard.releaseKey(KEY_4);
+              else
+                Keyboard.pressKey(KEY_4);
               if bitRead(incomingByte, 2) // maimai p1 b2
-                Keyboard.pressKey(KEY_2);
-              else
                 Keyboard.releaseKey(KEY_2);
-              if bitRead(incomingByte, 3) // maimai p1 b3
-                Keyboard.pressKey(KEY_3);
               else
+                Keyboard.pressKey(KEY_2);
+              if bitRead(incomingByte, 3) // maimai p1 b3
                 Keyboard.releaseKey(KEY_3);
+              else
+                Keyboard.pressKey(KEY_3);
               if bitRead(incomingByte, 4)
                 Keyboard.pressKey(KEY_DOWN);
               else
@@ -262,29 +262,29 @@ void JVS::switches(int board) {
               Joystick.button(3, bitRead(incomingByte, 7));
             } else {
               if bitRead(incomingByte, 5) // maimai p1 b7
-                Keyboard.pressKey(KEY_7);
-              else
                 Keyboard.releaseKey(KEY_7);
+              else
+                Keyboard.pressKey(KEY_7);
               if bitRead(incomingByte, 4) // maimai p1 b8
-                Keyboard.pressKey(KEY_8);
-              else
                 Keyboard.releaseKey(KEY_8);
-              if bitRead(incomingByte, 3) // maimai p1 b1 (?)
-                Keyboard.pressKey(KEY_1);
               else
+                Keyboard.pressKey(KEY_8);
+              if bitRead(incomingByte, 3) // maimai p1 b1 (?)
                 Keyboard.releaseKey(KEY_1);
+              else
+                Keyboard.pressKey(KEY_1);
               if bitRead(incomingByte, 2)
                 Keyboard.pressKey(KEY_U);
               else
                 Keyboard.releaseKey(KEY_U);
               if bitRead(incomingByte, 7) // maimai p1 b5
-                Keyboard.pressKey(KEY_5);
-              else
                 Keyboard.releaseKey(KEY_5);
-              if bitRead(incomingByte, 6) // maimai p1 b6
-                Keyboard.pressKey(KEY_6);
               else
+                Keyboard.pressKey(KEY_5);
+              if bitRead(incomingByte, 6) // maimai p1 b6
                 Keyboard.releaseKey(KEY_6);
+              else
+                Keyboard.pressKey(KEY_6);
             }
           }
         }
@@ -330,17 +330,17 @@ void JVS::switches(int board) {
             else
               Keyboard.releaseKey(KEY_O);
             if bitRead(incomingByte, 0) // maimai p2 b4
-              Keyboard.pressKey(KEY_D);
-            else
               Keyboard.releaseKey(KEY_D);
+            else
+              Keyboard.pressKey(KEY_D);
             if bitRead(incomingByte, 2) // maimai p2 b2
-              Keyboard.pressKey(KEY_B);
-            else
               Keyboard.releaseKey(KEY_B);
-            if bitRead(incomingByte, 3) // maimai p2 b3
-              Keyboard.pressKey(KEY_C);
             else
+              Keyboard.pressKey(KEY_B);
+            if bitRead(incomingByte, 3) // maimai p2 b3
               Keyboard.releaseKey(KEY_C);
+            else
+              Keyboard.pressKey(KEY_C);
             if bitRead(incomingByte, 4)
               Keyboard.pressKey(KEY_Q);
             else
@@ -379,25 +379,25 @@ void JVS::switches(int board) {
           Joystick2.button(3, bitRead(incomingByte, 7));
           } else {
             if bitRead(incomingByte, 7) // maimai p2 b5
-              Keyboard.pressKey(KEY_E);
-            else
               Keyboard.releaseKey(KEY_E);
+            else
+              Keyboard.pressKey(KEY_E);
             if bitRead(incomingByte, 6) // maimai p2 b6
-              Keyboard.pressKey(KEY_F);
-            else
               Keyboard.releaseKey(KEY_F);
+            else
+              Keyboard.pressKey(KEY_F);
             if bitRead(incomingByte, 5) // maimai p2 b7
-              Keyboard.pressKey(KEY_G);
-            else
               Keyboard.releaseKey(KEY_G);
+            else
+              Keyboard.pressKey(KEY_G);
             if bitRead(incomingByte, 4) // maimai p2 b8
-              Keyboard.pressKey(KEY_H);
-            else
               Keyboard.releaseKey(KEY_H);
-            if bitRead(incomingByte, 3) // maimai p2 b1
-              Keyboard.pressKey(KEY_A);
             else
+              Keyboard.pressKey(KEY_H);
+            if bitRead(incomingByte, 3) // maimai p2 b1
               Keyboard.releaseKey(KEY_A);
+            else
+              Keyboard.pressKey(KEY_A);
             if bitRead(incomingByte, 2)
               Keyboard.pressKey(KEY_L);
             else
