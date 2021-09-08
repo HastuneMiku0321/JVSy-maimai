@@ -100,13 +100,13 @@ void JVS::switches(int board) {
   int coin1 = 0;
   int coin2 = 0;
   bool old_shift = shift_mode;
-  Keyboard.releaseKey(KEY_5);
+  Keyboard.releaseKey(KEY_M);
   Keyboard.releaseKey(KEY_ESC);
   Keyboard.releaseKey(KEY_TAB);
   Keyboard.releaseKey(KEY_P);
   Keyboard.releaseKey(KEY_ENTER);
-  Keyboard.releaseKey(KEY_6);
-  Keyboard.releaseKey(KEY_1);
+  Keyboard.releaseKey(KEY_N);
+  Keyboard.releaseKey(KEY_J);
   Joystick.button(9, 0);
 
 
@@ -141,9 +141,9 @@ void JVS::switches(int board) {
         Joystick.button(11, bitRead(incomingByte, 1));
       } else {
         if bitRead(incomingByte, 7)
-          Keyboard.pressKey(KEY_F2);
+          Keyboard.pressKey(KEY_T);
         else
-          Keyboard.releaseKey(KEY_F2);
+          Keyboard.releaseKey(KEY_T);
       }
       break;
       case 3:
@@ -156,7 +156,7 @@ void JVS::switches(int board) {
               if (full_joy) {
                 Joystick.button(9, 1);
               } else {
-                Keyboard.pressKey(KEY_1);
+                Keyboard.pressKey(KEY_J);
               }
           }
           else
@@ -165,7 +165,7 @@ void JVS::switches(int board) {
         if (shift_mode) {
           //				Serial.println("shiftmode on");
           if (bitRead(incomingByte, 1)) {
-            Keyboard.pressKey(KEY_5);
+            Keyboard.pressKey(KEY_M);
             pressed_smth = true;
           }
 
@@ -208,18 +208,18 @@ void JVS::switches(int board) {
                 Keyboard.pressModifier(KEY_LEFT_CTRL);
               else
                 Keyboard.releaseModifier(KEY_LEFT_CTRL);
-              if bitRead(incomingByte, 0)
-                Keyboard.pressModifier(KEY_LEFT_ALT);
+              if bitRead(incomingByte, 0) // maimai p1 b4
+                Keyboard.pressKey(KEY_4);
               else
-                Keyboard.releaseModifier(KEY_LEFT_ALT);
-              if bitRead(incomingByte, 2)
-                Keyboard.pressKey(KEY_RIGHT);
+                Keyboard.releaseKey(KEY_4);
+              if bitRead(incomingByte, 2) // maimai p1 b2
+                Keyboard.pressKey(KEY_2);
               else
-                Keyboard.releaseKey(KEY_RIGHT);
-              if bitRead(incomingByte, 3)
-                Keyboard.pressKey(KEY_LEFT);
+                Keyboard.releaseKey(KEY_2);
+              if bitRead(incomingByte, 3) // maimai p1 b3
+                Keyboard.pressKey(KEY_3);
               else
-                Keyboard.releaseKey(KEY_LEFT);
+                Keyboard.releaseKey(KEY_3);
               if bitRead(incomingByte, 4)
                 Keyboard.pressKey(KEY_DOWN);
               else
@@ -228,10 +228,10 @@ void JVS::switches(int board) {
                 Keyboard.pressKey(KEY_UP);
               else
                 Keyboard.releaseKey(KEY_UP);
-              if bitRead(incomingByte, 6)
-                Keyboard.pressKey(KEY_9);
+              if bitRead(incomingByte, 6) // maimai SERVICE button
+                Keyboard.pressKey(KEY_S);
               else
-                Keyboard.releaseKey(KEY_9);
+                Keyboard.releaseKey(KEY_S);
               //Joystick.button(7,bitRead(incomingByte, 6)); // Service à voir
             }
           }
@@ -261,30 +261,30 @@ void JVS::switches(int board) {
               Joystick.button(4, bitRead(incomingByte, 6));
               Joystick.button(3, bitRead(incomingByte, 7));
             } else {
-              if bitRead(incomingByte, 5)
-                Keyboard.pressKey(KEY_Z);
+              if bitRead(incomingByte, 5) // maimai p1 b7
+                Keyboard.pressKey(KEY_7);
               else
-                Keyboard.releaseKey(KEY_Z);
-              if bitRead(incomingByte, 4)
-                Keyboard.pressKey(KEY_X);
+                Keyboard.releaseKey(KEY_7);
+              if bitRead(incomingByte, 4) // maimai p1 b8
+                Keyboard.pressKey(KEY_8);
               else
-                Keyboard.releaseKey(KEY_X);
-              if bitRead(incomingByte, 3)
-                Keyboard.pressKey(KEY_C);
+                Keyboard.releaseKey(KEY_8);
+              if bitRead(incomingByte, 3) // maimai p1 b1 (?)
+                Keyboard.pressKey(KEY_1);
               else
-                Keyboard.releaseKey(KEY_C);
+                Keyboard.releaseKey(KEY_1);
               if bitRead(incomingByte, 2)
-                Keyboard.pressKey(KEY_C);
+                Keyboard.pressKey(KEY_U);
               else
-                Keyboard.releaseKey(KEY_F);
-              if bitRead(incomingByte, 7)
-                Keyboard.pressKey(KEY_SPACE);
+                Keyboard.releaseKey(KEY_U);
+              if bitRead(incomingByte, 7) // maimai p1 b5
+                Keyboard.pressKey(KEY_5);
               else
-                Keyboard.releaseKey(KEY_SPACE);
-              if bitRead(incomingByte, 6)
-                Keyboard.pressModifier(KEY_LEFT_SHIFT);
+                Keyboard.releaseKey(KEY_5);
+              if bitRead(incomingByte, 6) // maimai p1 b6
+                Keyboard.pressKey(KEY_6);
               else
-                Keyboard.releaseModifier(KEY_LEFT_SHIFT);
+                Keyboard.releaseKey(KEY_6);
             }
           }
         }
@@ -301,9 +301,9 @@ void JVS::switches(int board) {
                 Joystick2.button(9, bitRead(incomingByte, 7));
               } else {
                 if bitRead(incomingByte, 7)
-                  Keyboard.pressKey(KEY_2);
+                  Keyboard.pressKey(KEY_K);
                 else
-                  Keyboard.releaseKey(KEY_2);
+                  Keyboard.releaseKey(KEY_K);
                 }
           }
         if (full_joy) {
@@ -326,25 +326,25 @@ void JVS::switches(int board) {
           } else {
             
             if bitRead(incomingByte, 1)
-              Keyboard.pressKey(KEY_A);
+              Keyboard.pressKey(KEY_O);
             else
-              Keyboard.releaseKey(KEY_A);
-            if bitRead(incomingByte, 0)
-              Keyboard.pressKey(KEY_S);
-            else
-              Keyboard.releaseKey(KEY_S);
-            if bitRead(incomingByte, 2)
-              Keyboard.pressKey(KEY_G);
-            else
-              Keyboard.releaseKey(KEY_G);
-            if bitRead(incomingByte, 3)
+              Keyboard.releaseKey(KEY_O);
+            if bitRead(incomingByte, 0) // maimai p2 b4
               Keyboard.pressKey(KEY_D);
             else
               Keyboard.releaseKey(KEY_D);
-            if bitRead(incomingByte, 4)
-              Keyboard.pressKey(KEY_F);
+            if bitRead(incomingByte, 2) // maimai p2 b2
+              Keyboard.pressKey(KEY_B);
             else
-              Keyboard.releaseKey(KEY_F);
+              Keyboard.releaseKey(KEY_B);
+            if bitRead(incomingByte, 3) // maimai p2 b3
+              Keyboard.pressKey(KEY_C);
+            else
+              Keyboard.releaseKey(KEY_C);
+            if bitRead(incomingByte, 4)
+              Keyboard.pressKey(KEY_Q);
+            else
+              Keyboard.releaseKey(KEY_Q);
             if bitRead(incomingByte, 5)
               Keyboard.pressKey(KEY_R);
             else
@@ -378,26 +378,26 @@ void JVS::switches(int board) {
           Joystick2.button(4, bitRead(incomingByte, 6));
           Joystick2.button(3, bitRead(incomingByte, 7));
           } else {
-            if bitRead(incomingByte, 7)
-              Keyboard.pressKey(KEY_Q);
+            if bitRead(incomingByte, 7) // maimai p2 b5
+              Keyboard.pressKey(KEY_E);
             else
-              Keyboard.releaseKey(KEY_Q);
-            if bitRead(incomingByte, 6)
-              Keyboard.pressKey(KEY_W);
+              Keyboard.releaseKey(KEY_E);
+            if bitRead(incomingByte, 6) // maimai p2 b6
+              Keyboard.pressKey(KEY_F);
             else
-              Keyboard.releaseKey(KEY_W);
-            if bitRead(incomingByte, 5)
-              Keyboard.pressKey(KEY_I);
+              Keyboard.releaseKey(KEY_F);
+            if bitRead(incomingByte, 5) // maimai p2 b7
+              Keyboard.pressKey(KEY_G);
             else
-              Keyboard.releaseKey(KEY_I);
-            if bitRead(incomingByte, 4)
-              Keyboard.pressKey(KEY_K);
+              Keyboard.releaseKey(KEY_G);
+            if bitRead(incomingByte, 4) // maimai p2 b8
+              Keyboard.pressKey(KEY_H);
             else
-              Keyboard.releaseKey(KEY_K);
-            if bitRead(incomingByte, 3)
-              Keyboard.pressKey(KEY_J);
+              Keyboard.releaseKey(KEY_H);
+            if bitRead(incomingByte, 3) // maimai p2 b1
+              Keyboard.pressKey(KEY_A);
             else
-              Keyboard.releaseKey(KEY_J);
+              Keyboard.releaseKey(KEY_A);
             if bitRead(incomingByte, 2)
               Keyboard.pressKey(KEY_L);
             else
@@ -416,13 +416,14 @@ void JVS::switches(int board) {
           coin1 = 1;
           coins1 = incomingByte;
         }
+        // maimai COIN INSERT switch / button
         if (coin1) {
           coin_pressed_at = millis();
-          Keyboard.pressKey(KEY_5);
+          Keyboard.pressKey(KEY_F3);
         } else if (coin_pressed_at > 0) {
           if (millis() - coin_pressed_at > 50) {
             coin_pressed_at = 0;
-            Keyboard.releaseKey(KEY_5);
+            Keyboard.releaseKey(KEY_F3);
           }
         }
         break;
@@ -438,11 +439,11 @@ void JVS::switches(int board) {
         }
         if (coin2) {
           coin_pressed_at = millis();
-          Keyboard.pressKey(KEY_6);
+          Keyboard.pressKey(KEY_N);
         } else if (coin_pressed_at > 0) {
           if (millis() - coin_pressed_at > 50) {
             coin_pressed_at = 0;
-            Keyboard.releaseKey(KEY_6);
+            Keyboard.releaseKey(KEY_N);
           }
         }
         break;
