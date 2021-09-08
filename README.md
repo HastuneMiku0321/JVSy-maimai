@@ -1,66 +1,72 @@
-Le JVSy est une solution opensource à bas coût  pour interfacer un PC avec une borne d'arcade au standard JVS*. Le PC détecte les contrôles de la borne en tant que contrôleurs de jeu USB Direct Input.
+# JVSy-maimai
 
-La solution s'appuie sur une carte de développement Teensy V2 et une puce SN65176B permettant la communication sur le protocole RS485 utilisé par le bus JVS. Une PCB additionnelle a été désignée dans le but de simplifier le raccordement des composants et d'intégrer un dipswitch pour la sélection facile des différents mode et options supportés.
+### Description
+JVSy lets you connect your arcade JVS I/O board to your PC and use it as either a keyboard or joystick, for MAME or other purposes.
 
-En l'état actuel du projet, le JVSy est une solution à bas coût aux produits du marché tels que le JVS-PAC ou le JVS-Strike avec l'avantage d'offrir un support pour les guncabs. Il est donc possible de jouer en émulation à des jeux prévus pour des pistolets optiques comme Point Blank ou des pistolets positionnels comme Terminator 2 sur une borne de tir Naomi Universal comme Confidential Mission par exemple.
+**JVSy-maimai** is a fork intended **specifically for use with original Maimai cabs!**
 
-Le développement du JVSy est actif et en cours et l'ajout des fonctionnalités suivantes est en développement :
-- le chaînage d'I/O boards : pour linker des bornes ensemble et avoir une configuration Versus Fighting où chaque joueur joue sur une borne ou bien pour permettre le jeu simultané à 4 joueurs répartis sur 2 bornes.
-- le support des trackballs : le chaînage d'I/O permettra également le support des panels spécifiques à certains jeux comme Outriggers ou Virtua Golf utilisant un trackball sur une mini I/O board secondaire intégrée au panel.
-- le support des sticks analogiques tels que ceux utilisés sur les panels des jeux Virtua Strikers ou des jeux plus récents des bornes HD comme Final Fantasy Dissidia.
+This is due to the keybinds and reverse logic for the photoswitches used in these cabs.
 
+**If you intend to use this for other general applications**, I would go to [gtranche's repo](https://github.com/gtranche/JVSy).
 
+All hardware buttons including 1P, 2P, Test, Service, and Coin are mapped to keyboard keys based on the diagram below:
 
-(*)voir liste des bornes compatibles
+![jvsy-maimai-keybinds](https://i.imgur.com/umIxTio.png)
 
-Bornes compatibles (liste non-exhaustive) :
-* Sega Naomi Universal Cabinet (NUC)
-* Sega New Net City
-* Namco Noir HD¹
-* Konami Windy 2
+### Hardware
 
-Compatibilité à évaluer :
-* Taito Vewlix (I/O standard, pas de Fast I/O)
-* Taito Egret 3
-* Sega Blast City
-* Sega Lindbergh
-* Namco Cyberlead
-* Sammy Atomiswave
+This solution is based on a Teensy V2 development board and a SN65176B chip allowing communication over the RS485 protocol used by the JVS bus.
 
-(¹) Option à activer
+Practically any standard RS485 transceiver module will work. This was tested with a MAX485 (easily found as breakout boards on Amazon) without issue.
 
-Merci à k4roshi pour son travail dont est issu ce projet.
+You will need: 
+- Teensy 2.0
+- RS485 to RS232/TTL transceiver module (SN65176B, SN75176B, MAX485, etc.)
+- USB-A full size female header (can harvest from a USB extension cable)
 
+### Connections
 
-JVSY is a lowcost opensource solution to interface a PC with an arcade cabinet compliant with the JVS standard*. The computer detects cabinet controls as USB Direct Input game controllers.
+**MAX485 / SN65176B / SN75176B:**
+- Pin 1 (RO): Teensy D2
+- Pin 2 (RI): Teensy F6
+- Pin 3 (DE): Teensy F6
+- Pin 4 (DI): Teensy D3
+- Pin 5 (GND): Teensy GND
+- Pin 6 (A): USB White
+- Pin 7 (B): USB Green
+- Pin 8 (Vcc): Teensy VCC
 
-This solution is based on a Teensy V2 development board and a SN65176B chip allowing communication over the RS485 protocol used by the JVS bus. An additional PCB was designed to simplify the connection between components and to integrate a dipswitch to easily select the different supported modes and options.
-Currently, JVSy is a lowcost alternative to regular market solutions like JVS-PAC or JVS-Strike with the benefit of the guncabs support. Thus it is possible to play with emulators to games designed for optical guns like Point Blank or games designed for positional guns like Terminator 2 on a Naomi Universal guncab like Confidential Mission for instance.
+**USB (JVS pinout):**
+- RED (Sense): Teensy B4
+- WHITE (A): SN65176B 6
+- GREEN (B): SN65176B 7
+- BLACK (GND): Teensy GND
 
-JVSy development is active and ongoing. The following features are under development :
+### Setup
 
-- I/O boards link : will allow to link arcade cabinets together and allow 4 players simultanous play over 2 separate cabinets.
+1) Grab the latest `.hex` file from Releases and flash using [Teensy Loader](https://www.pjrc.com/teensy/loader.html)
 
-- Trackball support : chaining I/O boards will also allow to support control panels that are specific to games like Outriggers or Virtual Golf using a trackball plugged on a secondary mini I/O board integrated to the panel.
+2) Once all your hardware is connected as shown above, disconnect the JVS connector (male USB-A) from your RingEdge and connect it to the female USB-A port you've wired up.
 
-- Analog sticks support as the ones found on control panels for games like Virtual Strikers or some more recent games on HD cabinets like Final Fantasy Dissidia.
+3) Ensure the cab is on and the I/O board is powered, then connect the Teensy via USB to your main PC. It should install drivers automatically and your buttons should function as keyboard keys (see diagram above).
 
-(*)see list of confirmed compatible cabinets
-Confirmed compatible cabinets :
-* Sega Naomi Universal Cabinet (NUC),
-* Sega New Net City,
-* Namco Noir HD¹,
-* Konami Windy 2
+It's worth noting that for Maimai cabinets, if you intend to use the board with another PC, the main cab power will need to be on as the RingEdge 2 provides power to the JVS I/O board (and the photoswitches in the buttons).
 
-Compatibility to be confirmed :
-* Taito Vewlix (standard JVS I/O only , no Fast I/O),
-* Taito Egret 3,
-* Sega Blast City,
-* Sega Lindbergh,
-* Namco Cyberlead,
-* Sammy Atomiswave...
+This could be handled by powering the board and buttons yourself externally if you wish, but that is beyond the scope of this guide.
 
-(¹) Option to activate
+The I/O board **must be on** when you connect the Teensy to your PC. If it wasn't, ensure it is then simply disconnect/reconnect the Teensy to your PC.
 
-Many thanks to k4roshi for his work which was the base for this project.
+### Compiling
 
+If you don't need to change the keybinds and are using a Teensy 2.0 like this guide, just follow **Setup** above and use the pre-compiled firmware.
+
+If you want to compile yourself, you will need to replace your Arduino IDE's Teensy hardware folder with gtranche's libraries in order to support NKRO and dual joysticks.
+
+**Do this at your own risk** as this will overwrite the base Teensy libraries. You can always replace these with the original ones yourself later if you wish.
+
+The libraries pulled for this fork are included as `teensyjvsy-master.zip` in this repo as a backup, but you can also grab the latest from [gtranche's separate repo](https://github.com/gtranche/teensyjvsy).
+
+### Thanks
+
+Many thanks to **k4roshi** and **gtranche** for their work on this project.
+Practically all I had to do was change keybinds.
