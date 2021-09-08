@@ -38,8 +38,8 @@ You will need:
 
 **USB (JVS pinout):**
 - RED (Sense): Teensy B4
-- WHITE (A): SN65176B 6
-- GREEN (B): SN65176B 7
+- WHITE (A): Pin 6 on RS485 chip (above)
+- GREEN (B): Pin 7 on RS485 chip (above)
 - BLACK (GND): Teensy GND
 
 ### Setup
